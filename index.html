@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>HNL Remote Terminal 06</title>
+<style>
+:root{--green:#a9ffb0;--dim:#62a96a;--red:#ff5b5b;--bg:#030604}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--green);font-family:"Courier New",monospace}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 4px);mix-blend-mode:screen}
+.terminal{width:min(760px,100%);border:1px solid #39653e;padding:18px;box-shadow:0 0 24px rgba(90,255,110,.10),inset 0 0 30px rgba(0,0,0,.7);position:relative}
+.header{border-bottom:1px dashed #39653e;padding-bottom:12px;margin-bottom:16px;text-align:center;letter-spacing:.08em}.header b{display:block;font-size:clamp(16px,4.5vw,24px)}.header span{font-size:12px;color:var(--dim)}
+#screen{font-size:clamp(14px,4vw,18px);line-height:1.55;min-height:390px;white-space:pre-wrap}.line{opacity:0;animation:show .12s forwards}.warning{color:var(--red);font-weight:bold}.sequence{font-size:clamp(24px,7vw,36px);letter-spacing:.18em;line-height:1.8;color:#e8ffe9;text-shadow:0 0 7px rgba(150,255,160,.45)}
+.cursor{display:inline-block;width:.65em;height:1em;background:var(--green);vertical-align:-.15em;animation:blink .8s steps(1) infinite}.footer{border-top:1px dashed #39653e;margin-top:12px;padding-top:9px;color:var(--dim);font-size:11px;text-align:center}
+.glitch{animation:glitch .18s linear 2}@keyframes show{to{opacity:1}}@keyframes blink{50%{opacity:0}}@keyframes glitch{0%{transform:translateX(0)}25%{transform:translateX(-2px)}50%{transform:translateX(3px)}75%{transform:translateX(-1px)}100%{transform:translateX(0)}}
+</style>
+</head>
+<body>
+<main class="terminal" id="terminal">
+<div class="header"><b>HAWKINS NATIONAL LABORATORY</b><span>REMOTE ACCESS SYSTEM // TERMINAL 06</span></div>
+<div id="screen"></div>
+<div class="footer">RESTRICTED SYSTEM · AUTHORIZED PERSONNEL ONLY</div>
+</main>
+<script>
+const lines=[
+ ['> ESTABLISHING REMOTE CONNECTION...',700,''],
+ ['> SEARCHING NODE D-011...',1100,''],
+ ['> NODE D-011 LOCATED',850,''],
+ ['> CONNECTION ESTABLISHED',750,''],
+ ['',300,''],
+ ['WARNING: DIMENSIONAL BREACH DETECTED',900,'warning'],
+ ['SIGNAL INTEGRITY: 41%',650,''],
+ ['',300,''],
+ ['> RECOVERING TRANSMISSION...',1050,''],
+ ['> DATA FRAGMENT FOUND',650,''],
+ ['',300,''],
+ ['▲   █   ●   ◆   █   ▲',750,'sequence'],
+ ['●   ◆   ▲   █   ◆   ●',650,'sequence'],
+ ['',350,''],
+ ['> ACCESS KEY REQUIRED',700,'warning'],
+ ['> CONSULT PHYSICAL DECODING KEY',500,''],
+ ['',250,''],
+ ['CONNECTION UNSTABLE ',0,'cursor']
+];
+const s=document.getElementById('screen'), term=document.getElementById('terminal');let i=0;
+function next(){if(i>=lines.length)return;const [txt,delay,cls]=lines[i++];const d=document.createElement('div');d.className='line '+(cls==='cursor'?'':cls);if(cls==='cursor'){d.textContent=txt;const c=document.createElement('span');c.className='cursor';d.appendChild(c)}else d.textContent=txt;s.appendChild(d);if(Math.random()<.18){term.classList.add('glitch');setTimeout(()=>term.classList.remove('glitch'),400)}setTimeout(next,delay)}
+setTimeout(next,450);
+</script>
+</body>
+</html>
